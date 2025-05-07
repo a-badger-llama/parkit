@@ -1,16 +1,24 @@
 class ApplicationController < ActionController::API
   def search
-    render json: [
-                   {
-                     "location_id": "abc123",
-                     "listing_ids": ["def456", "ghi789", "jkl012"],
-                     "total_price_in_cents": 300
-                   },
-                   {
-                     "location_id": "mno345",
-                     "listing_ids": ["pqr678", "stu901"],
-                     "total_price_in_cents": 305
-                   }
-                 ]
+    begin
+      vehicle_lengths = vehicle_params.flat_map do |param|
+        # I spent too long messing with strong params :/
+        raise ActionController::ParameterMissing.new("missing required param, length or quantity") if param["length"].nil? || param["quantity"].nil?
+
+        Array.new(param["quantity"], param["length"])
+      end
+
+      response = Location.possible_locations(vehicle_lengths)
+
+      render json: response
+    rescue ActionController::ParameterMissing => e
+      render status: :bad_request, json: { message: e.message }
+    end
+  end
+
+  private
+
+  def vehicle_params
+    params.expect(_json: [[:length, :quantity]])
   end
 end
