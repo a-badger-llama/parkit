@@ -1,24 +1,41 @@
-# README
+# Vehicle Storage Location Finder
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Ruby on Rails API that helps find optimal storage locations for vehicles of
+different lengths.
 
-Things you may want to cover:
+## Tech Stack
 
-* Ruby version
+- Ruby 3.4.2
+- Rails 8.0.2
+- PostgreSQL
+- Puma web server
 
-* System dependencies
+## Making API Requests
 
-* Configuration
+The API accepts POST requests to find storage locations for vehicles. Here's how to
+use it:
 
-* Database creation
+### Endpoint
 
-* Database initialization
+```bash
+POST https://rails-pjc8.onrender.com
+```
 
-* How to run the test suite
+The endpoint expects the following request structure:
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+curl -X POST "https://rails-pjc8.onrender.com" -H "Content-Type: application/json" -d '[
+    {
+      "length": 10,
+      "quantity": 1
+    },
+    {
+      "length": 20,
+      "quantity": 2
+    },
+    {
+      "length": 25,
+      "quantity": 1
+    }
+]'
+```
