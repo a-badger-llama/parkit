@@ -11,6 +11,4 @@ while [ $# -gt 0 ] ; do
 done
 
 bundle install
-bundle exec rails assets:precompile
-bundle exec rails assets:clean
 [[ $SKIP_MIGRATE == true ]] || bundle exec rails db:migrate
